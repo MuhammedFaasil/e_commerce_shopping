@@ -1,4 +1,6 @@
+import 'package:e_commerce_app/view/pages/customers_page.dart';
 import 'package:e_commerce_app/view/pages/home_page.dart';
+import 'package:e_commerce_app/view/pages/product_age.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: CustomerPage(),
     );
   }
 }

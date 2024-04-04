@@ -2,8 +2,8 @@ import 'package:e_commerce_app/controller/grid_data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class GridViewWidget extends HookWidget {
-  const GridViewWidget({super.key});
+class HomeGridViewWidget extends HookWidget {
+  const HomeGridViewWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
