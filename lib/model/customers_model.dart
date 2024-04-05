@@ -1,15 +1,7 @@
-// To parse this JSON data, do
-//
-//     final customers = customersFromJson(jsonString);
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 
 part 'customers_model.freezed.dart';
 part 'customers_model.g.dart';
-
-
-
 
 @freezed
 class CustomersModel with _$CustomersModel {

@@ -1,8 +1,10 @@
 import 'package:e_commerce_app/controller/services/customers_api_service.dart';
+import 'package:e_commerce_app/model/customers_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomersListViewWidget extends StatelessWidget {
-  const CustomersListViewWidget({super.key});
+  final List<CustomersModel> entity;
+  const CustomersListViewWidget({super.key, required this.entity});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class CustomersListViewWidget extends StatelessWidget {
           return ListView.separated(
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 8,
+            itemCount: entity.length,
             itemBuilder: (context, index) {
               return Container(
                 padding: const EdgeInsets.all(16),
@@ -36,8 +38,11 @@ class CustomersListViewWidget extends StatelessWidget {
                       width: 80,
                       height: 100,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.red),
+                        borderRadius: BorderRadius.circular(8),
+                        image: const DecorationImage(
+                            image: AssetImage(
+                                'asset/images/Max-R_Headshot (1).jpg')),
+                      ),
                     ),
                     const SizedBox(
                       width: 16,
@@ -65,17 +70,17 @@ class CustomersListViewWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          snapshot.data![index].name!,
+                          entity[index].name!,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         Text(
-                          "ID : ${snapshot.data![index].id}",
+                          "ID : ${entity[index].id}",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.grey),
                         ),
                         Text(
-                          snapshot.data![index].street!,
+                          "${entity[index].street!},${entity[index].state}",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.grey),
                         ),

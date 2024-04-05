@@ -1,6 +1,9 @@
+import 'package:e_commerce_app/controller/bloc/product_bloc/product_bloc.dart';
+import 'package:e_commerce_app/view/pages/product_pge.dart';
 import 'package:e_commerce_app/view/widgets/bottombar_widget.dart';
 import 'package:e_commerce_app/view/widgets/grid_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,7 +20,19 @@ class HomePage extends StatelessWidget {
               backgroundColor: Colors.black,
             ),
           ),
-          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.sort))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider<ProductBloc>(
+                          create: (context) => ProductBloc(),
+                          child: const ProductPage()),
+                      ));
+                },
+                icon: const Icon(Icons.sort))
+          ],
         ),
         body: const SingleChildScrollView(
           child: Padding(
@@ -27,6 +42,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar:const BottomNavigationWidget());
+        bottomNavigationBar: const BottomNavigationWidget());
   }
 }
