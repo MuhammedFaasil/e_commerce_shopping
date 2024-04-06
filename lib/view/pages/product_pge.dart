@@ -13,6 +13,7 @@ class ProductPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productController = useTextEditingController();
     useEffect(() {
       Future.delayed(
         Duration.zero,
@@ -27,14 +28,18 @@ class ProductPage extends HookWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(130),
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(130),
             child: Column(
               children: [
-                AppBarWidget(title: 'Nesto Hypermarket'),
-                TextFieldWidget(
-                  widget: Text('Fruits'),
-                ),
+                const AppBarWidget(title: 'Nesto Hypermarket'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFieldWidget(
+                      isProduct: true,
+                      onSubmitted: (p0) {},
+                      textEditingController: productController),
+                )
               ],
             )),
         body: SingleChildScrollView(

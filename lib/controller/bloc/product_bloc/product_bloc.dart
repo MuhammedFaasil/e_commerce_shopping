@@ -7,7 +7,6 @@ sealed class ProductEvent {}
 class GetProductEvent implements ProductEvent {}
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  bool streamLoaded = false;
   ProductBloc()
       : super(
           ProductState(product: null, error: null),

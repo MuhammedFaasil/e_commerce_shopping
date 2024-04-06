@@ -12,6 +12,7 @@ class CustomerPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customersController = useTextEditingController();
     useEffect(() {
       Future.delayed(
         Duration.zero,
@@ -21,18 +22,23 @@ class CustomerPage extends HookWidget {
       );
       return null;
     }, []);
-    // final customerSearchController = useTextEditingController();
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(130),
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(130),
             child: Column(
               children: [
-                AppBarWidget(
+                const AppBarWidget(
                   title: 'Customers',
                 ),
-                TextFieldWidget(widget: Text('data')),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFieldWidget(
+                      isProduct: false,
+                      onSubmitted: (p0) {},
+                      textEditingController: customersController),
+                )
               ],
             )),
         body: SingleChildScrollView(
