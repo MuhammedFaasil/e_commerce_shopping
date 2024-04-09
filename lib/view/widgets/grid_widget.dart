@@ -1,5 +1,11 @@
+import 'package:e_commerce_app/controller/bloc/customer_bloc/customers_bloc.dart';
+import 'package:e_commerce_app/controller/bloc/product_bloc/product_bloc.dart';
 import 'package:e_commerce_app/controller/grid_data_controller.dart';
+import 'package:e_commerce_app/view/pages/customers_page.dart';
+import 'package:e_commerce_app/view/pages/product_pge.dart';
+import 'package:e_commerce_app/view/widgets/construction_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class HomeGridViewWidget extends HookWidget {
@@ -7,6 +13,18 @@ class HomeGridViewWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final list = [
+      BlocProvider<CustomersBloc>(
+        create: (context) => CustomersBloc(),
+        child: const CustomerPage(),
+      ),
+      BlocProvider<ProductBloc>(
+        create: (context) => ProductBloc(),
+        child: const ProductPage(),
+      ),
+      for (int i = 0; i <= 5; i++) const UnderConstructionWidget(),
+    ];
+
     final selectedBox = useState<int>(-1);
     return GridView.builder(
       shrinkWrap: true,
@@ -23,6 +41,11 @@ class HomeGridViewWidget extends HookWidget {
           child: InkWell(
             onTap: () {
               selectedBox.value = index;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => list[index],
+                  ));
             },
             child: Container(
               decoration: BoxDecoration(

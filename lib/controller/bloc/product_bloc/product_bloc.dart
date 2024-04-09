@@ -6,6 +6,12 @@ sealed class ProductEvent {}
 
 class GetProductEvent implements ProductEvent {}
 
+class SearchProductsEvent implements ProductEvent {
+  final String searchText;
+
+  SearchProductsEvent(this.searchText);
+}
+
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc()
       : super(
@@ -14,12 +20,25 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<GetProductEvent>((event, emit) async {
       await fetchProducts(emit);
     });
+    on<SearchProductsEvent>((event, emit) async {
+      final searchText = event.searchText;
+      await searchProducts(emit, searchText);
+    });
   }
 
   Future<void> fetchProducts(Emitter<ProductState> emit) async {
     try {
-      final  products = await ProductApiService().getProducts();
+      final products = await ProductApiService().getProducts();
       emit(state.copyWith(product: products));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  Future<void> searchProducts(Emitter<ProductState> emit, String name) async {
+    try {
+      final searchProduct = await ProductApiService().searchCustomers(name);
+      emit(state.copyWith(product: searchProduct));
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
     }

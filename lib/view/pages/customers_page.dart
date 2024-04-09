@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/controller/bloc/customer_bloc/customers_bloc.dart';
 import 'package:e_commerce_app/controller/bloc/customer_bloc/customers_bloc_state.dart';
 import 'package:e_commerce_app/view/widgets/appbar_widget.dart';
+import 'package:e_commerce_app/view/widgets/bottombar_widget.dart';
 import 'package:e_commerce_app/view/widgets/customers_list_widget.dart';
 import 'package:e_commerce_app/view/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,15 @@ class CustomerPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final customersController = useTextEditingController();
+    final customerBloc = context.read<CustomersBloc>();
+
     useEffect(() {
       Future.delayed(
         Duration.zero,
         () {
-          context.read<CustomersBloc>().add(GetCustomersEvent());
+          customerBloc.add(
+            GetCustomersEvent(),
+          );
         },
       );
       return null;
@@ -35,8 +40,11 @@ class CustomerPage extends HookWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFieldWidget(
+                      onChanged: (text) {
+                        customerBloc.add(
+                            SearchCustomersEvent(customersController.text));
+                      },
                       isProduct: false,
-                      onSubmitted: (p0) {},
                       textEditingController: customersController),
                 )
               ],
@@ -56,9 +64,17 @@ class CustomerPage extends HookWidget {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
+                      } else if (state.error != null) {
+                        return Text(state.error.toString());
                       } else {
+                        final searchedCustomers = state.customers!
+                            .where((customer) => customer.name!
+                                .toLowerCase()
+                                .contains(
+                                    customersController.text.toLowerCase()))
+                            .toList();
                         return CustomersListViewWidget(
-                            entity: state.customers!);
+                            entity: searchedCustomers);
                       }
                     },
                   ),
@@ -67,6 +83,7 @@ class CustomerPage extends HookWidget {
             ),
           ),
         ),
+        bottomNavigationBar: const BottomNavigationWidget(),
       ),
     );
   }

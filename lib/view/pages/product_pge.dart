@@ -36,8 +36,12 @@ class ProductPage extends HookWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFieldWidget(
+                      onChanged: (text) {
+                        context
+                            .read<ProductBloc>()
+                            .add(SearchProductsEvent(productController.text));
+                      },
                       isProduct: true,
-                      onSubmitted: (p0) {},
                       textEditingController: productController),
                 )
               ],
@@ -57,8 +61,15 @@ class ProductPage extends HookWidget {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
+                      } else if (state.error != null) {
+                        return Text(state.error.toString());
                       } else {
-                        return ProductGridviewWidget(entity: state.product!);
+                        final searchedCustomers = state.product!
+                            .where((customer) => customer.name
+                                .toLowerCase()
+                                .contains(productController.text.toLowerCase()))
+                            .toList();
+                        return ProductGridviewWidget(entity: searchedCustomers);
                       }
                     },
                   ),

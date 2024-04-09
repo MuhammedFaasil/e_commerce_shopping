@@ -1,20 +1,25 @@
+import 'package:e_commerce_app/controller/bloc/customer_bloc/customers_bloc.dart';
+import 'package:e_commerce_app/view/widgets/show_model_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 class TextFieldWidget extends StatelessWidget {
   final bool? isProduct;
   final TextEditingController? textEditingController;
-  final void Function(String)? onSubmitted;
-  const TextFieldWidget(
-      {super.key,
-      required this.isProduct,
-      required this.onSubmitted,
-      required this.textEditingController});
+  final void Function(String)? onChanged;
+  const TextFieldWidget({
+    super.key,
+    required this.isProduct,
+    required this.textEditingController,
+    this.onChanged,
+  });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 45,
       child: TextField(
-        onSubmitted: onSubmitted,
+        onChanged: onChanged,
         controller: textEditingController,
         decoration: InputDecoration(
             prefixIcon: const Icon(
@@ -60,12 +65,15 @@ class TextFieldWidget extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            // showModalBottomSheet(
-                            //   context: context,
-                            //   builder: (context) {
-                            //     return const ShowModelWidget();
-                            //   },
-                            // );
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return BlocProvider<CustomersBloc>(
+                                  create: (context) => CustomersBloc(),
+                                  child: ShowBottomWidget());
+                              },
+                            );
                           },
                           child: const CircleAvatar(
                             radius: 12,
